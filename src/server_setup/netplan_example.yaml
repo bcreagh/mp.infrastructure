@@ -1,0 +1,10 @@
+network:
+    ethernets:
+        enp0s3:
+            addresses: []
+            dhcp4: true
+        enp0s8:
+            addresses:
+                - <%GUEST_ADDRESS%>
+            dhcp4: true
+    version: 2
