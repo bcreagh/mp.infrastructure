@@ -10,7 +10,7 @@ usage() {
     exit 1; 
 }
 
-while getopts ":a:v:" o; do
+while getopts ":a:v" o; do
     case "${o}" in
         a)
             ip_address=${OPTARG}
