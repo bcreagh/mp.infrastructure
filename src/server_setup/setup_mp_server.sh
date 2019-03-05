@@ -24,7 +24,7 @@ while getopts ":a:v" o; do
     esac
 done
 
-if [ ip_address="" ] ; then
+if [ "$ip_address"="" ] ; then
     usage
 fi
 
