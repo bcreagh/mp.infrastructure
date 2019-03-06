@@ -24,7 +24,7 @@ while getopts ":a:v" o; do
     esac
 done
 
-if [ "$ip_address"="" ] ; then
+if [ -z "$ip_address" ] ; then
     usage
 fi
 
@@ -33,7 +33,7 @@ if [ is_virtual_box=="true" ] ; then
     echo "This is a vm running in VirtualBox"
     echo "Configuring Host-Only Adapter network..."
     cat ./netplan_example.yaml > /etc/netplan/50-cloud-init.yaml
-    sed -i -e "s/<%GUEST_ADDRESS%>/${ip_address}/g" /etc/netplan/50-cloud-init.yaml
+    sed -i -e "s@<%GUEST_ADDRESS%>@${ip_address}@g" /etc/netplan/50-cloud-init.yaml
     netplan apply
     echo "Network configured!"
 fi
