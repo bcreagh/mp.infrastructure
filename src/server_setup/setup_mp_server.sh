@@ -50,7 +50,7 @@ echo "User profile successfully set up!"
 echo "Adding repository for docker installation..."
 apt-get update
 
-apt-get install \
+apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -67,12 +67,15 @@ echo "Repository added!"
 
 echo "Installing docker..."
 apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
+apt-get -y install docker-ce docker-ce-cli containerd.io
 echo "Docker successfully installed!"
 
 if [ ! -d ~/mega-project ]; then
     mkdir ~/mega-project
 fi
+
+echo "Installing git repositories..."
 cd ~/mega-project
 git clone https://github.com/bcreagh/mp.proof-of-concept.git
 git clone https://github.com/bcreagh/mp.frontend.git
+echo "Git repositories successfully installed"
