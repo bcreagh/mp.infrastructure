@@ -32,9 +32,9 @@ fi
 if [ is_virtual_box=="true" ] ; then
     echo "This is a vm running in VirtualBox"
     echo "Configuring Host-Only Adapter network..."
-    cat ./netplan_example.yaml > /etc/netplan/50-cloud-init.yaml
-    sed -i -e "s@<%GUEST_ADDRESS%>@${ip_address}@g" /etc/netplan/50-cloud-init.yaml
-    netplan apply
+    sudo cat ./netplan_example.yaml > /etc/netplan/50-cloud-init.yaml
+    sudo sed -i -e "s@<%GUEST_ADDRESS%>@${ip_address}@g" /etc/netplan/50-cloud-init.yaml
+    sudo netplan apply
     echo "Network configured!"
 fi
 
@@ -48,26 +48,26 @@ echo "User profile successfully set up!"
 
 # install docker
 echo "Adding repository for docker installation..."
-apt-get update
+sudo apt-get update
 
-apt-get -y install \
+sudo apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
     gnupg-agent \
     software-properties-common
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-add-apt-repository \
+sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
 echo "Repository added!"
 
 echo "Installing docker..."
-apt-get update
-apt-get -y install docker-ce docker-ce-cli containerd.io
+sudo apt-get update
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 echo "Docker successfully installed!"
 
 if [ ! -d ~/mega-project ]; then
