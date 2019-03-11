@@ -70,6 +70,10 @@ sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 echo "Docker successfully installed!"
 
+echo "Adding user to docker group"
+sudo usermod -aG docker $USER
+echo "User added to docker group"
+
 if [ ! -d ~/mega-project ]; then
     mkdir ~/mega-project
 fi
@@ -79,3 +83,5 @@ cd ~/mega-project
 git clone https://github.com/bcreagh/mp.proof-of-concept.git
 git clone https://github.com/bcreagh/mp.frontend.git
 echo "Git repositories successfully installed"
+
+echo "Setup complete! LOGOUT AND LOGIN again to make sure all changes have been applied!"
