@@ -14,6 +14,9 @@ fi
 
 if [ ! -d ~/bin ]; then
     mkdir ~/bin
+else
+    sudo chown $USER ~/bin
+    sudo chgrp $USER ~/bin
 fi
 
 cat ./configFiles/bashrc >> ~/.bashrc
