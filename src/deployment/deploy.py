@@ -10,6 +10,7 @@ SERVICES_FILE = 'services.json'
 args = None
 all_services = []
 default_working_directory = ''
+services_base_directory = ''
 
 
 def set_working_directory():
@@ -34,6 +35,13 @@ def get_args():
                         default='~/mega-project',
                         help='If set, all service EXCEPT the ones you specify will be deployed')
     args = parser.parse_args()
+
+
+def set_base_directory():
+    global services_base_directory
+    if not os.path.isdir(args.base_directory):
+        raise ValueError('The base directory you have specified does not exist: "{}"'.format(args.base_directory))
+    services_base_directory = os.path.abspath(args.base_directory)
 
 
 def get_all_services():
@@ -71,7 +79,7 @@ def get_user_specified_services():
 
 
 def deploy_service(service):
-    path_to_service = os.path.join(args.base_directory, service['location'])
+    path_to_service = os.path.join(services_base_directory, service['location'])
     if not os.path.isdir(path_to_service):
         git_clone_service(service)
     os.chdir(path_to_service)
@@ -81,14 +89,15 @@ def deploy_service(service):
 
 
 def git_clone_service(service):
-    os.chdir(args.base_directory)
+    os.chdir(services_base_directory)
     subprocess.run(['git', 'clone', service['git_repo']])
     os.chdir(default_working_directory)
 
 
 def main():
-    set_working_directory()
     get_args()
+    set_base_directory()
+    set_working_directory()
     get_all_services()
     deployment_list = get_deployment_list()
     for service in deployment_list:
