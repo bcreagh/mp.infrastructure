@@ -21,6 +21,7 @@ def set_working_directory():
 
 
 def get_args():
+    print('Retrieving the cli arguments')
     global args
     parser = argparse.ArgumentParser(description='Mega Project service deployment script')
     parser.add_argument('services', help='User specified services', nargs='*')
@@ -38,19 +39,23 @@ def get_args():
 
 
 def set_base_directory():
+    print('Setting the services base directory')
     global services_base_directory
     if not os.path.isdir(args.base_directory):
         raise ValueError('The base directory you have specified does not exist: "{}"'.format(args.base_directory))
     services_base_directory = os.path.abspath(args.base_directory)
+    print('The services base directory has been set to {}'.format(services_base_directory))
 
 
 def get_all_services():
+    print('Retrieving the services from the yaml file')
     global all_services
     with open(SERVICES_FILE) as file_data:
         all_services = json.load(file_data)
 
 
 def get_deployment_list():
+    print('Creating the list of services to be deployed')
     deployment_list = []
     user_specified_services = get_user_specified_services()
     if not user_specified_services:
@@ -61,10 +66,12 @@ def get_deployment_list():
                 deployment_list.append(service)
     else:
         deployment_list = user_specified_services
+    print('Deployment list successfully created!')
     return deployment_list
 
 
 def get_user_specified_services():
+    print('Retrieving the services specifed by the user')
     user_specified_services = []
     for user_service in args.services:
         service_found = False
@@ -79,6 +86,7 @@ def get_user_specified_services():
 
 
 def deploy_service(service):
+    print('Deploying service: {}'.format(service['name']))
     path_to_service = os.path.join(services_base_directory, service['location'])
     if not os.path.isdir(path_to_service):
         git_clone_service(service)
@@ -86,9 +94,11 @@ def deploy_service(service):
     deploy_script = os.path.join(path_to_service, 'scripts', 'lifecycle', 'deploy')
     subprocess.run([deploy_script])
     os.chdir(default_working_directory)
+    print('{} successfully deployed!'.format(service['name']))
 
 
 def git_clone_service(service):
+    print('Cloning the git repo of {} from {}'.format(service['name'], service['git_repo']))
     os.chdir(services_base_directory)
     subprocess.run(['git', 'clone', service['git_repo']])
     os.chdir(default_working_directory)
