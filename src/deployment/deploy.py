@@ -93,7 +93,7 @@ def deploy_service(service):
         git_clone_service(service)
     os.chdir(path_to_service)
     deploy_script = os.path.join(path_to_service, 'scripts', 'lifecycle', 'deploy')
-    subprocess.run([deploy_script])
+    subprocess.run([deploy_script], check=True)
     os.chdir(default_working_directory)
     print('{} successfully deployed!'.format(service['name']))
 
@@ -101,7 +101,7 @@ def deploy_service(service):
 def git_clone_service(service):
     print('Cloning the git repo of {} from {}'.format(service['name'], service['git_repo']))
     os.chdir(services_base_directory)
-    subprocess.run(['git', 'clone', service['git_repo']])
+    subprocess.run(['git', 'clone', service['git_repo']], check=True)
     os.chdir(default_working_directory)
 
 
