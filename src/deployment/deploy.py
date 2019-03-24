@@ -41,9 +41,10 @@ def get_args():
 def set_base_directory():
     print('Setting the services base directory')
     global services_base_directory
-    if not os.path.isdir(args.base_directory):
+    expanded_base_dir = os.path.expanduser(args.base_directory)
+    if not os.path.isdir(expanded_base_dir):
         raise ValueError('The base directory you have specified does not exist: "{}"'.format(args.base_directory))
-    services_base_directory = os.path.abspath(args.base_directory)
+    services_base_directory = os.path.abspath(expanded_base_dir)
     print('The services base directory has been set to {}'.format(services_base_directory))
 
 
