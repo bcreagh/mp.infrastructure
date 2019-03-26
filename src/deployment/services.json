@@ -3,5 +3,10 @@
     "name": "proof-of-concept",
     "location": "mp.proof-of-concept",
     "git_repo": "https://github.com/bcreagh/mp.proof-of-concept.git"
+  },
+  {
+    "name": "frontend",
+    "location": "mp.frontend",
+    "git_repo": "https://github.com/bcreagh/mp.frontend.git"
   }
 ]
