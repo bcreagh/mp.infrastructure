@@ -5,3 +5,5 @@ mcd () {
 }
 
 export PATH="$PATH:~/bin"
+
+export MAVEN_LOCAL="${HOME}/maven_local_repo"
